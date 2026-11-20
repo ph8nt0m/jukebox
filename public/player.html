@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="robots" content="noindex" />
+  <title>Jukebox Player</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body class="player">
+  <main>
+    <div class="video"><div id="yt"></div><div id="lyrics" class="tv-lyrics" hidden></div></div>
+    <aside>
+      <div id="tvBackdrop" class="tv-backdrop"></div>
+      <div class="tv-inner">
+        <div class="brand"><span id="brandIcon" class="brand-icon"></span>Jukebox</div>
+
+        <div id="nowLabel" class="eyebrow">지금 재생</div>
+        <div id="nowTitle" class="tv-title">대기열이 비어 있어요</div>
+        <div id="nowSub" class="tv-sub"></div>
+        <div class="bar"><div id="nowBar"></div></div>
+
+        <div class="eyebrow next">다음 곡</div>
+        <ol id="queue" class="tv-queue"></ol>
+
+        <div class="qr">
+          <img src="qr.svg" alt="" />
+          <div>
+            <div class="qr-title">곡 신청하기</div>
+            <div class="qr-sub">휴대폰 카메라로 찍으세요</div>
+          </div>
+        </div>
+        <div id="status" class="status"></div>
+      </div>
+    </aside>
+  </main>
+  <div id="emojiLayer" class="emoji-layer"></div>
+
+  <button id="start" class="start"><span id="startIcon" class="start-icon"></span>탭해서 시작<small>소리 재생을 허용하려면 한 번 눌러야 해요</small></button>
+
+  <script src="https://www.youtube.com/iframe_api"></script>
+  <script type="module" src="player.js"></script>
+</body>
+</html>

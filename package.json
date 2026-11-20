@@ -1,0 +1,20 @@
+{
+  "name": "jukebox",
+  "private": true,
+  "license": "MIT",
+  "description": "Office jukebox on Cloudflare Workers — queue YouTube songs from your phone, vote, react, and see synced lyrics.",
+  "type": "module",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "uqr": "^0.1.2"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^4.20251101.0",
+    "typescript": "^5.9.3",
+    "wrangler": "^4.165.0"
+  }
+}

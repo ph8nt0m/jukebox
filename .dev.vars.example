@@ -1,0 +1,4 @@
+# YouTube Data API v3 키. 비워 두면 검색은 꺼지고 링크 붙여넣기만 된다.
+YOUTUBE_API_KEY=
+# 관리자 화면(/admin) 비밀번호. 배포에는 wrangler secret put ADMIN_PASSWORD 로 넣는다.
+ADMIN_PASSWORD=
