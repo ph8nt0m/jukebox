@@ -78,7 +78,7 @@ svg { width: 1em; height: 1em; display: block; flex: none; }
 
 .emojis { display: flex; gap: 8px; overflow-x: auto; scrollbar-width: none; }
 .emojis::-webkit-scrollbar { display: none; }
-.emojis button { flex: 1 0 auto; min-width: 48px; height: 40px; border-radius: 999px; background: rgba(255, 255, 255, .08); font-size: 20px; transition: background .15s; }
+.emojis button { flex: 1 0 auto; min-width: 48px; height: 40px; border-radius: 999px; background: rgba(255, 255, 255, .08); font-size: 20px; transition: background .15s; touch-action: none; user-select: none; -webkit-user-select: none; -webkit-touch-callout: none; }
 .emojis button:active { background: rgba(255, 255, 255, .18); }
 .emojis button.pop { animation: pop .3s ease-out; }
 @keyframes pop { 40% { transform: scale(1.25); } }
@@ -184,7 +184,7 @@ svg { width: 1em; height: 1em; display: block; flex: none; }
 
 /* 이모지 반응 (모니터) */
 .emoji-layer { position: fixed; inset: 0; pointer-events: none; overflow: hidden; z-index: 5; }
-.floater { position: absolute; bottom: -80px; font-size: clamp(40px, 5vw, 80px); animation: floatUp linear forwards; filter: drop-shadow(0 6px 12px rgba(0, 0, 0, .4)); }
+.floater { position: absolute; bottom: -80px; font-size: calc(clamp(40px, 5vw, 80px) * var(--size, 1)); animation: floatUp linear forwards; filter: drop-shadow(0 6px 12px rgba(0, 0, 0, .4)); }
 @keyframes floatUp {
   0% { transform: translate(0, 0) scale(.7); opacity: 0; }
   10% { opacity: 1; }

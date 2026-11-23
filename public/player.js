@@ -16,7 +16,7 @@ const send = connect("player", onMessage, (up) => {
 });
 
 function onMessage(msg) {
-  if (msg.type === "emoji") return floatEmoji(msg.e);
+  if (msg.type === "emoji") return floatEmoji(msg.e, msg.n);
   if (msg.type !== "state") return;
   state = msg.state;
   render();

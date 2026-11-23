@@ -32,7 +32,7 @@ function onMessage(msg) {
     banner(online ? "" : "모니터 플레이어가 꺼져 있어요. 곡은 쌓이고, 플레이어가 켜지면 재생돼요.");
     render();
   } else if (msg.type === "emoji") {
-    floatEmoji(msg.e);
+    floatEmoji(msg.e, msg.n);
   } else if (msg.type === "notice") {
     toast(msg.message);
   } else if (msg.type === "progress") {
@@ -170,15 +170,32 @@ $("queue").onclick = (e) => {
   if (b.dataset.act === "down") send({ type: "react", id, v: -1 });
 };
 
-// 이모지 반응 — 모니터와 모두의 화면에 떠오른다
-$("emojis").onclick = (e) => {
-  const b = e.target.closest("button[data-e]");
-  if (!b) return;
-  send({ type: "emoji", e: b.dataset.e });
+// 이모지 반응 — 모니터와 모두의 화면에 떠오른다. 한 번 누르면 4개가 터지고, 꾹 누르고 있으면 계속 나온다.
+// (서버는 기기당 1초에 3번까지 받는다 — 0.35초 간격이면 그 안에 든다.)
+const BURST = 4;
+const HOLD_EVERY = 350;
+let holding = null;
+function burst(b) {
+  send({ type: "emoji", e: b.dataset.e, n: BURST });
   b.classList.remove("pop");
   void b.offsetWidth; // 애니메이션 다시 시작
   b.classList.add("pop");
-};
+}
+function stopHold() {
+  clearInterval(holding);
+  holding = null;
+}
+$("emojis").addEventListener("pointerdown", (e) => {
+  const b = e.target.closest("button[data-e]");
+  if (!b) return;
+  e.preventDefault(); // 길게 누를 때 뜨는 선택·메뉴 막기
+  stopHold();
+  burst(b);
+  holding = setInterval(() => burst(b), HOLD_EVERY);
+});
+for (const ev of ["pointerup", "pointercancel", "pointerleave"]) $("emojis").addEventListener(ev, stopHold);
+window.addEventListener("blur", stopHold);
+$("emojis").addEventListener("contextmenu", (e) => e.preventDefault());
 
 // 검색 · 링크 붙여넣기 — 끝까지 내리면 다음 결과를 이어 불러온다.
 const results = searchList({

@@ -46,7 +46,7 @@ type State = {
 };
 
 /** 서버 코드 판 번호. 배포 뒤 DO 가 새 코드로 바뀌었는지 `/ws` 첫 state 의 `codeVersion` 으로 확인한다. 서버를 고치면 올린다. */
-const CODE_VERSION = 4;
+const CODE_VERSION = 5;
 const MAX_QUEUE = 300;
 /** 스킵·모두 비우기에 필요한 표 수, 그리고 곡을 없애는 붐따 수 */
 export const VOTES_NEEDED = 3;
@@ -151,7 +151,9 @@ export class Room extends DurableObject<Env> {
         const times = (this.emojiTimes.get(voter) ?? []).filter((t) => now - t < 1000);
         if (times.length >= EMOJI_PER_SEC) return;
         this.emojiTimes.set(voter, [...times, now]);
-        const out = JSON.stringify({ type: "emoji", e });
+        // n: 한 번에 터뜨릴 개수(1~5). 꾹 누르면 손님 화면이 이 메시지를 0.35초마다 보낸다.
+        const n = Math.min(5, Math.max(1, Math.floor(Number(msg.n) || 1)));
+        const out = JSON.stringify({ type: "emoji", e, n });
         for (const p of this.ctx.getWebSockets()) safeSend(p, out);
         return;
       }

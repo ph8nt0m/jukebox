@@ -64,18 +64,24 @@ export const icons = {
   robot: svg('<path d="M12 2a1 1 0 0 1 1 1v1h4a3 3 0 0 1 3 3v9a3 3 0 0 1-3 3H7a3 3 0 0 1-3-3V7a3 3 0 0 1 3-3h4V3a1 1 0 0 1 1-1zM9 9.5a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3zm6 0a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3zM8 15a1 1 0 1 0 0 2h8a1 1 0 1 0 0-2H8z"/>'),
 };
 
-// 이모지가 화면 아래에서 떠오른다(#emojiLayer 필요).
-export function floatEmoji(e) {
+// 이모지 n 개가 화면 아래에서 조금씩 시차를 두고 떠오른다(#emojiLayer 필요).
+export function floatEmoji(e, n = 1) {
   const layer = document.getElementById("emojiLayer");
-  if (layer.childElementCount > 80) return;
-  const el = document.createElement("span");
-  el.className = "floater";
-  el.textContent = e;
-  el.style.left = `${5 + Math.random() * 90}%`;
-  el.style.setProperty("--drift", `${(Math.random() - 0.5) * 160}px`);
-  el.style.animationDuration = `${3 + Math.random() * 1.5}s`;
-  el.addEventListener("animationend", () => el.remove());
-  layer.appendChild(el);
+  const x = 10 + Math.random() * 80; // 한 묶음은 비슷한 자리에서 퍼진다
+  for (let i = 0; i < n; i++) {
+    setTimeout(() => {
+      if (layer.childElementCount > 120) return;
+      const el = document.createElement("span");
+      el.className = "floater";
+      el.textContent = e;
+      el.style.left = `${Math.min(95, Math.max(2, x + (Math.random() - 0.5) * 24))}%`;
+      el.style.setProperty("--drift", `${(Math.random() - 0.5) * 180}px`);
+      el.style.setProperty("--size", (0.75 + Math.random() * 0.5).toFixed(2));
+      el.style.animationDuration = `${2.8 + Math.random() * 1.6}s`;
+      el.addEventListener("animationend", () => el.remove());
+      layer.appendChild(el);
+    }, i * 90);
+  }
 }
 
 // 검색 한 번에 불러오는 쪽 수 상한. 쪽마다 YouTube 할당량 101 units(하루 10,000 을 회사 전체가 나눠 씀)라 약 100곡에서 멈춘다.
